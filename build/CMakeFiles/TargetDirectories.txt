@@ -1,0 +1,3 @@
+/mnt/d/KARTHIKEYA/PROJECTS/YO2/C++/scratch_http/build/CMakeFiles/http_server.dir
+/mnt/d/KARTHIKEYA/PROJECTS/YO2/C++/scratch_http/build/CMakeFiles/edit_cache.dir
+/mnt/d/KARTHIKEYA/PROJECTS/YO2/C++/scratch_http/build/CMakeFiles/rebuild_cache.dir
