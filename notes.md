@@ -1,4 +1,5 @@
 HTTP server from scratch
+(build like package)
 
 
 Components:
@@ -8,6 +9,9 @@ Components:
 4. Handing headers
 5. Multiple connections
 6. Serve static files
+7. rate limiting, caching
+8. Logger
+9. thread, queue
 
 
 Sources: 
@@ -26,3 +30,15 @@ to build the project
 - cmake ..
 - make
 - ./http_server
+
+Features
+- Serve static files
+- In-built rate limiting
+- Request logging 
+- Parsing http requests
+- In-build in memory cache using LRU
+- Multi thread queueing
+- API routing - GET, POST, PUT, DELETE
+- Graceful shutdown
+- Support for response codes
+- struct for server configuration - port, host, max_connections, rate_limit, cache_size, log_file, static files dir

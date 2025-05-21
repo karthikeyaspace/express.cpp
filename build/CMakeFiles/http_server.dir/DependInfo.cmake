@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/mnt/d/KARTHIKEYA/PROJECTS/YO2/C++/scratch_http/src/parser.cpp" "CMakeFiles/http_server.dir/src/parser.cpp.o" "gcc" "CMakeFiles/http_server.dir/src/parser.cpp.o.d"
   "/mnt/d/KARTHIKEYA/PROJECTS/YO2/C++/scratch_http/src/server.cpp" "CMakeFiles/http_server.dir/src/server.cpp.o" "gcc" "CMakeFiles/http_server.dir/src/server.cpp.o.d"
   "/mnt/d/KARTHIKEYA/PROJECTS/YO2/C++/scratch_http/tests/main.cpp" "CMakeFiles/http_server.dir/tests/main.cpp.o" "gcc" "CMakeFiles/http_server.dir/tests/main.cpp.o.d"
   )

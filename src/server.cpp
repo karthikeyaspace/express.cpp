@@ -1,6 +1,7 @@
 
 #include "server.hpp"
 #include "config.hpp"
+#include "utils.hpp"
 
 namespace http_server {
   HttpServer::HttpServer(int port) : port(port), server_fd(-1) {}
@@ -56,8 +57,9 @@ namespace http_server {
 
       char buffer[BUFFER_SIZE] = {0};
       ssize_t bytes_received = read(client_fd, buffer, BUFFER_SIZE);
+      request_t req = parse(buffer);
+      std::cout << "Received request: " << req.method << " " << req.path << " " << req.version << " " << req.body << std::endl;
       if (bytes_received > 0) {
-        std::cout << "Request: \n" << buffer << std::endl;
         const char* response = "HTTP/1.1 200 OK\r\n"
                               "Content-Type: text/plain\r\n"
                               "Content-Length: 13\r\n"
