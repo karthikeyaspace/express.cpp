@@ -6,9 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(include)
 
-add_executable(http_server
-    tests/main.cpp
-    src/server.cpp
-    src/parser.cpp
-)
+file(GLOB SOURCES "src/*.cpp" "tests/*.cpp")
 
+add_executable(http_server
+    ${SOURCES}
+)
