@@ -13,10 +13,14 @@ namespace http_server {
     exit(EXIT_FAILURE); \
     close(config.server_fd); \
   }
+
+  #define WARNING(msg) { \
+    std::cerr << "[WARNING] " << msg << std::endl; \
+  }
   
-  static constexpr int PORT = 42069;
   static constexpr int BUFFER_SIZE = 4096;
-  static constexpr int MAX_THREAD_QUEUE_SIZE = 100;
+  static constexpr int MAX_QUEUE_SIZE = 1000;
+  static constexpr int MAX_BUFFER_QUEUE_SIZE = 100;
 
   enum class http_method {
     GET,
@@ -44,11 +48,12 @@ namespace http_server {
   
   struct server_configuration {
     int server_fd = -1;
-    int port = PORT;
+    int port = 8080;
     int max_connections = 100;
     int threads = 4;
     int rate_limit = 100;
     std::string document_root = "./public";
+    std::string log_file_path = "";
   };
 
   struct request_t {
@@ -91,9 +96,6 @@ namespace http_server {
       if (headers.find("Content-Length") == headers.end()) {
         headers["Content-Length"] = std::to_string(body.size());
       }
-      if (headers.find("Connection") == headers.end()) {
-        headers["Connection"] = "close";
-      }
       std::string response = version + " " + std::to_string(status_code) + " " + status_message + "\r\n";
       for (const auto& header : headers) {
         response += header.first + ": " + header.second + "\r\n";
@@ -116,15 +118,14 @@ namespace http_server {
       headers[key] = value;
     }
 
-    // res.json({ "key": "value", "key2": "value2" });
     void json(const std::unordered_map<std::string, std::string>& json_obj) {
       headers["Content-Type"] = "application/json";
       body = "{";
       for (const auto& [key, value] : json_obj) {
         body += "\"" + key + "\": \"" + value + "\", ";
       }
-      body.pop_back(); // Remove last comma
-      body.pop_back(); // Remove last space
+      body.pop_back();
+      body.pop_back();
       body += "}";
     }
 
@@ -133,6 +134,4 @@ namespace http_server {
       body = msg;
     }
   };
-  
-    
 } // namespace http_server

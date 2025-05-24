@@ -10,7 +10,6 @@ namespace http_server {
     : config(config) {
   }
 
-
   HttpServer::~HttpServer() {
     if (config.server_fd != -1) {
       close(config.server_fd);
@@ -44,6 +43,11 @@ namespace http_server {
     std::cout << "Server is running on http://localhost:" << config.port << std::endl;
 
     this->config.server_fd = server_fd;
+    if(!config.log_file_path.empty()) {
+      start_log_thread(config.log_file_path);
+    } else {
+      WARNING("File logging disabled");
+    }
   }
 
   void HttpServer::acceptConnections() {
@@ -56,7 +60,6 @@ namespace http_server {
         perror("Failed to accept connection");
         continue;
       }
-
 
       handleClient(client_fd);
     }
@@ -72,8 +75,11 @@ namespace http_server {
       return;
     }
 
+    // TODO: get client ip
+
     request_t req = parse(std::string(buffer));
-    std::cout << "Received request: " << req.path << std::endl;
+    log("INFO", "Request: " + req.method + " " + req.path + "\n" + std::string(buffer));
+
 
     response_t res;
 
@@ -82,15 +88,15 @@ namespace http_server {
 
     if(routes.count(method) && routes[method].count(path)) {
       auto handler = routes[method][path];
-      std::cout << "handle client invoked" << std::endl;
-
       handler(req, res);
     } else {
       res.status(404);
     }
 
     std::string res_string = res.prepare_response();
-    std::cout << res_string << std::endl;
+
+    log("INFO", "Response: " + res_string + "\n\n");
+    
     write(client_fd, res_string.c_str(), res_string.size());
     close(client_fd);
   }

@@ -1,8 +1,11 @@
-// /src/parser.cpp
+// /src/utils.cpp
 
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cassert>
+#include <ctime>
+#include <iomanip>
 
 #include "config.hpp"
 #include "utils.hpp"
@@ -35,5 +38,14 @@ namespace http_server {
     }
 
     return (request_t)req_obj;
+  }
+
+  std::string get_time() {
+    std::time_t now = std::time(nullptr);
+    std::tm *tm_now = std::localtime(&now);
+    std::ostringstream oss;
+    oss << std::put_time(tm_now, "%Y-%m-%d %H:%M:%S");
+    std::string timestamp = oss.str();
+    return "[" + timestamp + "] ";
   }
 }

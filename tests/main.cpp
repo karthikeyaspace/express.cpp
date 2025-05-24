@@ -7,7 +7,8 @@ using namespace http_server;
 int main() {
 
   server_configuration config;
-  config.port = 42069;
+  config.port = 8080;
+  config.log_file_path = "/mnt/d/KARTHIKEYA/PROJECTS/YO2/http_server/tests/server.log";
    
   HttpServer server(config);
 
