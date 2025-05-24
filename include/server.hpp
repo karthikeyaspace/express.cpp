@@ -39,7 +39,6 @@ namespace http_server {
       }
 
       void serve_static(const std::string&path, const std::string& file_path);
-      void initialize_logger(const std::string& log_file_path);
 
       void start();
 

@@ -1,10 +1,7 @@
 {
-    "liveServer.settings.donotShowInfoMsg": true,
     "explorer.confirmDelete": false,
-    "code-runner.runInTerminal": true,
     "editor.accessibilitySupport": "off",
     "explorer.confirmDragAndDrop": false,
-    "redhat.telemetry.enabled": false,
     "workbench.editorAssociations": {
         "*.copilotmd": "vscode.markdown.preview.editor",
         "*.docx": "default",
@@ -14,25 +11,16 @@
     },
     "explorer.confirmPasteNative": false,
     "git.confirmSync": false,
-    "javascript.updateImportsOnFileMove.enabled": "always",
     "git.enableSmartCommit": true,
     "workbench.editor.enablePreview": false,
     "editor.inlineSuggest.suppressSuggestions": true,
     "emmet.useInlineCompletions": true,
     "terminal.integrated.enableMultiLinePasteWarning": "never",
     "debug.disassemblyView.showSourceCode": false,
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "python.createEnvironment.trigger": "off",
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "[typescript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
     },
     "[javascript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "[javascriptreact]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "[css]": {
@@ -46,9 +34,6 @@
     "editor.minimap.showSlider": "always",
     "editor.minimap.enabled": false,
     "editor.unicodeHighlight.nonBasicASCII": false,
-    "[jsonc]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "github.copilot.enable": {
         "*": true,
         "plaintext": false,
@@ -56,16 +41,12 @@
         "scminput": false
     },
     "window.confirmSaveUntitledWorkspace": false,
-    "[html]": {
-        "editor.defaultFormatter": "vscode.html-language-features"
-    },
     "editor.cursorBlinking": "smooth",
     "screencastMode.fontSize": 50,
     "workbench.sideBar.location": "right",
     "workbench.iconTheme": "vscode-icons",
     "workbench.colorTheme": "GitHub Dark Default",
     "diffEditor.ignoreTrimWhitespace": false,
-    "chat.editing.alwaysSaveWithGeneratedChanges": true,
     "vsicons.dontShowNewVersionMessage": true,
     "editor.tabSize": 2,
     "prettier.tabWidth": 4,
