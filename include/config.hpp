@@ -30,19 +30,16 @@ namespace http_server {
     CONNECT
   };
 
-  enum class http_status_code {
-    OK = 200,
-    CREATED = 201,
-    ACCEPTED = 202,
-    NO_CONTENT = 204,
-    MOVED_PERMANENTLY = 301,
-    FOUND = 302,
-    NOT_MODIFIED = 304,
-    BAD_REQUEST = 400,
-    UNAUTHORIZED = 401,
-    FORBIDDEN = 403,
-    NOT_FOUND = 404,
-    INTERNAL_SERVER_ERROR = 500
+  static const std::unordered_map<int, std::string> status_codes = {
+    {200, "OK"},
+    {201, "Created"},
+    {204, "No Content"},
+    {400, "Bad Request"},
+    {401, "Unauthorized"},
+    {403, "Forbidden"},
+    {404, "Not Found"},
+    {500, "Internal Server Error"},
+    {501, "Not Implemented"}
   };
   
   struct server_configuration {
@@ -73,8 +70,8 @@ namespace http_server {
 
   struct response_t {
     std::string version = "HTTP/1.1";
-    int status_code;
-    std::string status_message = "ok";
+    int status_code = 200;
+    std::string status_message = "OK";
     std::unordered_map<std::string, std::string> headers;
     std::string body;
 
@@ -86,9 +83,54 @@ namespace http_server {
       response += "\r\n" + body;
       return response;
     }
+    
+    std::string prepare_response() {
+      if (headers.find("Content-Type") == headers.end()) {
+        headers["Content-Type"] = "text/plain";
+      }
+      if (headers.find("Content-Length") == headers.end()) {
+        headers["Content-Length"] = std::to_string(body.size());
+      }
+      if (headers.find("Connection") == headers.end()) {
+        headers["Connection"] = "close";
+      }
+      std::string response = version + " " + std::to_string(status_code) + " " + status_message + "\r\n";
+      for (const auto& header : headers) {
+        response += header.first + ": " + header.second + "\r\n";
+      }
+      response += "\r\n" + body;
+      return response;
+    }
 
     void set_content_type(const std::string& type) {
       headers["Content-Type"] = type;
+    }
+
+    void status(int code) {
+      assert(status_codes.count(code) > 0);
+      status_code = code;
+      status_message = status_codes.at(code);
+    }
+    
+    void set_header(const std::string& key, const std::string& value) {
+      headers[key] = value;
+    }
+
+    // res.json({ "key": "value", "key2": "value2" });
+    void json(const std::unordered_map<std::string, std::string>& json_obj) {
+      headers["Content-Type"] = "application/json";
+      body = "{";
+      for (const auto& [key, value] : json_obj) {
+        body += "\"" + key + "\": \"" + value + "\", ";
+      }
+      body.pop_back(); // Remove last comma
+      body.pop_back(); // Remove last space
+      body += "}";
+    }
+
+    void message(const std::string& msg) {
+      headers["Content-Type"] = "text/plain";
+      body = msg;
     }
   };
   

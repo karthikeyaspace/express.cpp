@@ -11,22 +11,22 @@ int main() {
    
   HttpServer server(config);
 
-  server.get("/", [](request_t req) -> response_t {
-    response_t res;
-    res.status_code = 200;
-    res.status_message = "OK";
-    res.body = "Hola";
-    res.headers["Content-Type"] = "text/plain";
-    return res;
+  server.get("/", [](request_t req, response_t &res) {
+    res.status(200);
+    res.message("Hola");
   });
 
-  server.get("/home", [](request_t req) -> response_t {
-    response_t res;
-    res.status_code = 200;
-    res.status_message = "OK";
-    res.body = "Welcome to the home page!";
-    res.headers["Content-Type"] = "text/plain";
-    return res;
+  server.get("/home", [](request_t req, response_t &res) {
+    res.status(200);
+    res.message("Welcome to the home page!");
+  });
+
+  server.get("/json", [](request_t req, response_t &res) {
+    res.status(200);
+    res.json({
+      {"key", "value"},
+      {"key2", "value2"}
+    });
   });
 
   server.start();

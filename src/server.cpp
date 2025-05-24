@@ -57,6 +57,7 @@ namespace http_server {
         continue;
       }
 
+
       handleClient(client_fd);
     }
   }
@@ -66,8 +67,14 @@ namespace http_server {
     ssize_t bytes_received = read(client_fd, buffer, BUFFER_SIZE);
     
 
+    if (bytes_received <= 0) {
+      close(client_fd);
+      return;
+    }
+
     request_t req = parse(std::string(buffer));
-    std::cout << "Received request: " << req.to_string().c_str() << std::endl;
+    std::cout << "Received request: " << req.path << std::endl;
+
     response_t res;
 
     const auto& method = req.method;
@@ -75,15 +82,16 @@ namespace http_server {
 
     if(routes.count(method) && routes[method].count(path)) {
       auto handler = routes[method][path];
-      res = handler(req);
+      std::cout << "handle client invoked" << std::endl;
+
+      handler(req, res);
     } else {
-      res.status_code = 404;
-      res.status_message = "Not Found";
+      res.status(404);
     }
 
-    std::string res_string = res.to_string();
+    std::string res_string = res.prepare_response();
+    std::cout << res_string << std::endl;
     write(client_fd, res_string.c_str(), res_string.size());
-
     close(client_fd);
   }
 

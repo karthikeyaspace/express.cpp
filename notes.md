@@ -24,6 +24,7 @@ terminate wsl -> wsl --terminate <distro>
 set default wsl distro -> wsl --set-default <distro>
 install a distro -> wsl --install -d <distro>
 install packages in ubuntu -> sudo apt install build-essential cmake git -y
+set cmake compiler -> cmake .. -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
 
 to build the project
 - cd build

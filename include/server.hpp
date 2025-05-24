@@ -25,24 +25,26 @@ namespace http_server {
       HttpServer(const server_configuration &config);
       ~HttpServer();
 
-      void get(const std::string& path, std::function<response_t(request_t)> handler) {
+      void get(const std::string& path, std::function<void(const request_t&, response_t&)> handler) {
         routes["GET"][path] = handler;
       }
-      void post(const std::string& path, std::function<response_t(request_t)> handler) {
+      void post(const std::string& path, std::function<void(const request_t&, response_t&)> handler) {
         routes["POST"][path] = handler;
       }
-      void put(const std::string& path, std::function<response_t(request_t)> handler) {
+      void put(const std::string& path, std::function<void(const request_t&, response_t&)> handler) {
         routes["PUT"][path] = handler;
       }
-      void delete_route(const std::string& path, std::function<response_t(request_t)> handler) {
+      void delete_route(const std::string& path, std::function<void(const request_t&, response_t&)> handler) {
         routes["DELETE"][path] = handler;
       }
 
+      void serve_static(const std::string&path, const std::string& file_path);
+
       void start();
-      
+
     private:
       // ["Method"]["/path"] = handler
-      std::unordered_map<std::string, std::unordered_map<std::string, std::function<response_t(request_t)>>> routes;
+      std::unordered_map<std::string, std::unordered_map<std::string, std::function<void(const request_t&, response_t&)>>> routes;
 
       server_configuration config;
 
