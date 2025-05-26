@@ -53,11 +53,19 @@ namespace http_server {
 
   void HttpServer::serve_static(const std::string &document_root) {
     config.document_root = document_root;
-    this->get("/static", [this](const request_t &req, response_t &res) {
-      res.status(200);
-      res.set_content_type("text/html");
-      res.body = "<html><body><h1>Welcome to the HTTP Server</h1></body></html>";
-    });
+    auto files = get_files_in_directory(document_root);
+    for (const auto &file: files) {
+      std::string path = get_path(file);
+      std::string full_path = document_root + "/" + file;
+      this->get(path, [full_path](const request_t req, response_t &res) {
+        std::string contents = read_file(full_path);
+        std::string mimetype = get_file_mimetype(full_path);
+
+        res.status(200);
+        res.set_content_type(mimetype);
+        res.body = contents;
+      });
+    }
   }
 
   void HttpServer::acceptConnections() {

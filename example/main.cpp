@@ -12,12 +12,10 @@ int main() {
 
   HttpServer server(config);
 
-  server.get("/", [](request_t req, response_t &res) {
-    res.status(200);
-    res.message("Hola");
-  });
+  std::string static_path = "../example/public"; // path relative to /build/http_server.exe
+  server.serve_static(static_path);
 
-  server.get("/home", [](request_t req, response_t &res) {
+  server.get("/home0", [](request_t req, response_t &res) {
     res.status(200);
     res.message("Welcome to the home page!");
   });
@@ -44,7 +42,6 @@ int main() {
     res.redirect("/home");
   });
 
-  server.serve_static("./public");
 
   server.start();
 

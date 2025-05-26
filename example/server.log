@@ -1,80 +1,8 @@
-[INFO][2025-05-26 14:28:40] Request: GET /
-GET / HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 1bd119e0-ece3-4e0f-a81c-16ad2b0f9674
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 14:28:40] Response: HTTP/1.1 200 OK
-Content-Length: 4
-Content-Type: text/plain
-
-Hola
-
-
-[INFO][2025-05-26 14:29:29] Request: GET /
-GET / HTTP/1.1
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 48577e3c-7736-4f30-8bb0-944e72b80686
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-
-
-[INFO][2025-05-26 14:29:29] Response: HTTP/1.1 200 OK
-Content-Length: 4
-Content-Type: text/plain
-
-Hola
-
-
-[INFO][2025-05-26 14:31:48] Request: POST /post
-POST /post HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 9e527b44-26af-4988-b464-5a31ccee30cb
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 14:31:48] Response: HTTP/1.1 200 OK
-Content-Length: 99
-Content-Type: text/plain
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-
-
-[INFO][2025-05-26 14:35:41] Request: GET /home
+[INFO][2025-05-26 17:47:33] Request: GET /home
 GET /home HTTP/1.1
 Host: localhost:8080
 Connection: keep-alive
+Cache-Control: max-age=0
 sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
 sec-ch-ua-mobile: ?0
 sec-ch-ua-platform: "Windows"
@@ -89,15 +17,25 @@ Accept-Encoding: gzip, deflate, br, zstd
 Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
 
 
-[INFO][2025-05-26 14:35:41] Response: HTTP/1.1 200 OK
-Content-Length: 25
-Content-Type: text/plain
+[INFO][2025-05-26 17:47:33] Response: HTTP/1.1 200 OK
+Content-Length: 218
+Content-Type: text/html
 
-Welcome to the home page!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Hello, Home!</h1>
+</body>
+</html>
 
 
-[INFO][2025-05-26 14:35:45] Request: GET /api/test
-GET /api/test HTTP/1.1
+[INFO][2025-05-26 17:47:40] Request: GET /api/post
+GET /api/post HTTP/1.1
 Host: localhost:8080
 Connection: keep-alive
 sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
@@ -114,89 +52,14 @@ Accept-Encoding: gzip, deflate, br, zstd
 Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
 
 
-[INFO][2025-05-26 14:35:45] Response: HTTP/1.1 200 OK
-Content-Length: 28
-Content-Type: text/plain
-
-This is a test API endpoint.
-
-
-[INFO][2025-05-26 14:35:47] Request: GET /api/
-GET /api/ HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:35:47] Response: HTTP/1.1 404 Not Found
+[INFO][2025-05-26 17:47:40] Response: HTTP/1.1 404 Not Found
 Content-Length: 0
 Content-Type: text/plain
 
 
 
 
-[INFO][2025-05-26 14:35:50] Request: GET /api/test
-GET /api/test HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:35:50] Response: HTTP/1.1 200 OK
-Content-Length: 28
-Content-Type: text/plain
-
-This is a test API endpoint.
-
-
-[INFO][2025-05-26 14:35:53] Request: GET /home
-GET /home HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:35:53] Response: HTTP/1.1 200 OK
-Content-Length: 25
-Content-Type: text/plain
-
-Welcome to the home page!
-
-
-[INFO][2025-05-26 14:35:55] Request: GET /json
+[INFO][2025-05-26 17:47:53] Request: GET /json
 GET /json HTTP/1.1
 Host: localhost:8080
 Connection: keep-alive
@@ -214,65 +77,14 @@ Accept-Encoding: gzip, deflate, br, zstd
 Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
 
 
-[INFO][2025-05-26 14:35:55] Response: HTTP/1.1 200 OK
+[INFO][2025-05-26 17:47:53] Response: HTTP/1.1 200 OK
 Content-Length: 167
 Content-Type: application/json
 
 {"skills": "["C++", "Python", "TS"]", "is_student": "true", "hobbies": "["coding", "reading"]", "age": "20", "city": "Hyd, Telangana, India", "name": "Karthikeya(me)"}
 
 
-[INFO][2025-05-26 14:35:59] Request: GET /home
-GET /home HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:35:59] Response: HTTP/1.1 200 OK
-Content-Length: 25
-Content-Type: text/plain
-
-Welcome to the home page!
-
-
-[INFO][2025-05-26 14:43:42] Request: GET /home
-GET /home HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-Cache-Control: max-age=0
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:43:42] Response: HTTP/1.1 200 OK
-Content-Length: 25
-Content-Type: text/plain
-
-Welcome to the home page!
-
-
-[INFO][2025-05-26 14:43:44] Request: GET /
+[INFO][2025-05-26 17:47:55] Request: GET /
 GET / HTTP/1.1
 Host: localhost:8080
 Connection: keep-alive
@@ -290,503 +102,20 @@ Accept-Encoding: gzip, deflate, br, zstd
 Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
 
 
-[INFO][2025-05-26 14:43:44] Response: HTTP/1.1 200 OK
-Content-Length: 4
-Content-Type: text/plain
-
-Hola
-
-
-[INFO][2025-05-26 14:43:48] Request: GET /static
-GET /static HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:43:48] Response: HTTP/1.1 200 OK
-Content-Length: 61
+[INFO][2025-05-26 17:47:55] Response: HTTP/1.1 200 OK
+Content-Length: 207
 Content-Type: text/html
 
-<html><body><h1>Welcome to the HTTP Server</h1></body></html>
-
-
-[INFO][2025-05-26 14:44:00] Request: GET /post
-GET /post HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:44:00] Response: HTTP/1.1 404 Not Found
-Content-Length: 0
-Content-Type: text/plain
-
-
-
-
-[INFO][2025-05-26 14:46:00] Request: GET /re
-GET /re HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:48:03] Request: GET /re
-GET /re HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-Cache-Control: max-age=0
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:48:03] Response: HTTP/1.1 302 Found
-Content-Length: 0
-Content-Type: text/plain
-Location: /home
-
-
-
-
-[INFO][2025-05-26 14:48:03] Request: GET /home
-GET /home HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-Cache-Control: max-age=0
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:48:03] Response: HTTP/1.1 200 OK
-Content-Length: 25
-Content-Type: text/plain
-
-Welcome to the home page!
-
-
-[INFO][2025-05-26 14:48:07] Request: GET /re
-GET /re HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:48:07] Response: HTTP/1.1 302 Found
-Content-Length: 0
-Content-Type: text/plain
-Location: /home
-
-
-
-
-[INFO][2025-05-26 14:48:08] Request: GET /home
-GET /home HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-sec-ch-ua: "Chromium";v="136", "Microsoft Edge";v="136", "Not.A/Brand";v="99"
-sec-ch-ua-mobile: ?0
-sec-ch-ua-platform: "Windows"
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9,en-IN;q=0.8
-
-
-[INFO][2025-05-26 14:48:08] Response: HTTP/1.1 200 OK
-Content-Length: 25
-Content-Type: text/plain
-
-Welcome to the home page!
-
-
-[INFO][2025-05-26 15:11:08] Request: POST /api/post
-POST /api/post HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 47025bcc-1a18-481e-a0da-f6b049f96482
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:11:08] Response: HTTP/1.1 404 Not Found
-Content-Length: 0
-Content-Type: text/plain
-
-
-
-
-[INFO][2025-05-26 15:11:39] Request: POST /api/submit
-POST /api/submit HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 029a30be-91e6-44e8-94fa-b497f4acb437
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:11:39] Response: HTTP/1.1 200 OK
-Content-Length: 50
-Content-Type: text/plain
-
-Hello , your data has been submitted successfully!
-
-
-[INFO][2025-05-26 15:16:40] Request: POST /api/submit
-POST /api/submit HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 1b5b2aba-58d9-4f1f-a3b2-c22657500eee
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:16:40] Response: HTTP/1.1 200 OK
-Content-Length: 50
-Content-Type: text/plain
-
-Hello , your data has been submitted successfully!
-
-
-[INFO][2025-05-26 15:19:31] Request: POST /api/submit
-POST /api/submit HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: a6dc0257-4fb5-40f4-aa45-e44239b9da85
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:19:31] Response: HTTP/1.1 200 OK
-Content-Length: 50
-Content-Type: text/plain
-
-Hello , your data has been submitted successfully!
-
-
-[INFO][2025-05-26 15:20:08] Request: POST /api/submit
-POST /api/submit HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 08b13ed9-c3aa-414c-8448-ab1c060df1b8
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:20:08] Response: HTTP/1.1 200 OK
-Content-Length: 50
-Content-Type: text/plain
-
-Hello , your data has been submitted successfully!
-
-
-[INFO][2025-05-26 15:20:58] Request: POST /api/submit
-POST /api/submit HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 36c48c7a-05f4-4333-b491-e0804c02878e
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:20:58] Response: HTTP/1.1 200 OK
-Content-Length: 50
-Content-Type: text/plain
-
-Hello , your data has been submitted successfully!
-
-
-[INFO][2025-05-26 15:24:30] Request: POST /api/submit
-POST /api/submit HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 9fcae250-fa57-4bfe-b7eb-d9de5dfe1f28
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:24:30] Response: HTTP/1.1 200 OK
-Content-Length: 99
-Content-Type: text/plain
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-
-
-[INFO][2025-05-26 15:24:43] Request: POST /
-POST / HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: b6a186dd-570c-4f88-97a1-047abca945c2
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:24:43] Response: HTTP/1.1 404 Not Found
-Content-Length: 0
-Content-Type: text/plain
-
-
-
-
-[INFO][2025-05-26 15:24:46] Request: GET /
-GET / HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: c517a734-32a5-4cb9-bd8e-a114b700cb66
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:24:46] Response: HTTP/1.1 200 OK
-Content-Length: 4
-Content-Type: text/plain
-
-Hola
-
-
-[INFO][2025-05-26 15:25:20] Request: GET /static
-GET /static HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 7c8adb90-5ef9-4193-ad21-9cdad9bb889a
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:25:20] Response: HTTP/1.1 200 OK
-Content-Length: 61
-Content-Type: text/html
-
-<html><body><h1>Welcome to the HTTP Server</h1></body></html>
-
-
-[INFO][2025-05-26 15:25:33] Request: GET /home
-GET /home HTTP/1.1
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: a445adcd-ec53-4e1e-af93-95f4442e7cf4
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-
-
-[INFO][2025-05-26 15:25:33] Response: HTTP/1.1 200 OK
-Content-Length: 25
-Content-Type: text/plain
-
-Welcome to the home page!
-
-
-[INFO][2025-05-26 15:26:11] Request: POST /api/submit
-POST /api/submit HTTP/1.1
-Content-Type: application/json
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 2ab681e7-c1bf-45a4-8bcb-9ef825c93300
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 99
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-[INFO][2025-05-26 15:26:11] Response: HTTP/1.1 200 OK
-Content-Length: 99
-Content-Type: text/plain
-
-{
-    "name": "Karthikeya",
-    "age": 20,
-    "profession": "Student",
-    "building": true
-}
-
-
-[INFO][2025-05-26 15:26:39] Request: GET /static
-GET /static HTTP/1.1
-User-Agent: PostmanRuntime/7.43.3
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: e17a0164-373d-4a49-8bc0-1ea1c2726ae4
-Host: localhost:8080
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-
-
-[INFO][2025-05-26 15:26:39] Response: HTTP/1.1 200 OK
-Content-Length: 61
-Content-Type: text/html
-
-<html><body><h1>Welcome to the HTTP Server</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  Index page
+</body>
+</html>
 
 

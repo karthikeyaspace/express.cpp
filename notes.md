@@ -54,9 +54,9 @@ Done
 - Request protocol parser - HTTP request lines and headers
 - API routing (GET)
 - Logger with background thread and in-memory queue to server.log file
+- API routing (POST, PUT, DELETE)
 
 TODO:
-- API routing (POST, PUT, DELETE)
 - Handling headers
 - Serve static files
 - In-memory queue for requests

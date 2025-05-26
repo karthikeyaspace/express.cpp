@@ -13,12 +13,21 @@ namespace http_server {
   #define EXIT(msg) { \
     perror(msg); \
     exit(EXIT_FAILURE); \
-    close(config.server_fd); \
+  }
+
+  #define ERROR(msg) { \
+    std::cerr << "[ERROR] " << msg << std::endl; \
+    exit(EXIT_FAILURE); \
   }
 
   #define WARNING(msg) { \
     std::cerr << "[WARNING] " << msg << std::endl; \
   }
+
+  #define CONSOLE(msg) { \
+    std::cout << msg << std::endl; \
+  }
+
   
   static constexpr int BUFFER_SIZE = 4096;
   static constexpr int MAX_QUEUE_SIZE = 1000;
