@@ -119,9 +119,43 @@ namespace http_server {
     close(client_fd);
   }
 
+  void HttpServer::helper(const std::string &alpha) {
+    if (alpha == "h") {
+      std::cout << "Available commands:\n"
+                << "  h - help\n"
+                << "  r - show all registered routes\n"
+                << "  s - show server status\n"
+                << "  q - quit\n\n";
+    } else if (alpha == "r") {
+      std::cout << "Registered routes:\n";
+      for (const auto& method : routes) {
+        for (const auto& route : method.second) {
+          std::cout << method.first << " " << route.first << "\n";
+        }
+      }
+      std::cout << std::endl;
+    } else if (alpha == "s") {
+      std::cout << "Server is running on http://localhost:" << config.port << std::endl << std::endl;
+    } else if (alpha == "q") {
+      std::cout << "Stopping server...\n";
+      if (config.server_fd != -1) {
+        close(config.server_fd);
+      }
+      exit(0);
+    }
+  }
 
   void HttpServer::start() {
     setupServer();
+    
+    std::thread([this]() {
+      std::string ip;
+      while(true) {
+        std::getline(std::cin, ip);
+        this->helper(ip);
+      }
+    }).detach();
+
     acceptConnections();
   }
 

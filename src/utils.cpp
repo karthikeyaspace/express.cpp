@@ -15,6 +15,7 @@
 
 #include "config.hpp"
 #include "utils.hpp"
+#include "server.hpp"
 
 namespace http_server {
 

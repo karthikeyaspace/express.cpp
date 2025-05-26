@@ -11,6 +11,7 @@
 #include <string>
 #include <unordered_map>
 #include <functional>
+#include <thread>
 
 #include "config.hpp"
 
@@ -62,6 +63,7 @@ namespace http_server {
       
       void setupServer();
       void acceptConnections();
+      void helper(const std::string &alpha);
       void handleClient(int client_fd);
       
   };
