@@ -2,9 +2,11 @@
 
 #pragma once
 
-#include <cassert>
-#include <unordered_map>
 
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <sstream>
 
 namespace http_server {
 
@@ -38,6 +40,9 @@ namespace http_server {
     {200, "OK"},
     {201, "Created"},
     {204, "No Content"},
+    {301, "Moved Permanently"},
+    {302, "Found"},
+    {304, "Not Modified"},
     {400, "Bad Request"},
     {401, "Unauthorized"},
     {403, "Forbidden"},
@@ -109,7 +114,9 @@ namespace http_server {
     }
 
     void status(int code) {
-      assert(status_codes.count(code) > 0);
+      if (status_codes.find(code) == status_codes.end()) {
+        WARNING("Invalid status code: " + std::to_string(code));
+      }
       status_code = code;
       status_message = status_codes.at(code);
     }
@@ -132,6 +139,12 @@ namespace http_server {
     void message(const std::string& msg) {
       headers["Content-Type"] = "text/plain";
       body = msg;
+      headers["Content-Length"] = std::to_string(body.size());
+    }
+
+    void redirect(const std::string &path) {
+      this->status(302);
+      headers["Location"] = path;
     }
   };
 } // namespace http_server

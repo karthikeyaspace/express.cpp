@@ -105,6 +105,7 @@
         "ctime": "cpp",
         "fstream": "cpp",
         "iomanip": "cpp",
-        "condition_variable": "cpp"
+        "condition_variable": "cpp",
+        "variant": "cpp"
     }
 }

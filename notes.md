@@ -29,6 +29,7 @@ to build the project
 - cmake ..
 - make
 - ./http_server
+- to build using g++ -> g++ -Iinclude src/*.cpp example/main.cpp -o http_server
 
 Features
 - Serve static files
@@ -42,7 +43,7 @@ Features
 - Support for response codes
 - Struct for server configuration - port, host, max_connections, rate_limit, cache_size, log_file, static files dir
 
-Thread pool
+Thread pool intro
 - There are n threads, and 1 shared thread-safe queue
 - Each thread will take a request from the queue and process it
 - When a connection comes in, main acceptor thread will add it to the queue
@@ -63,5 +64,5 @@ TODO:
 - Middleware support
 - Rate limiting
 - Load server config from yaml file
-- Hot reload - reload configuration or static files without restarting the server
+- terminal commands - r(restart), q(quit), p(show all paths)
 - server.cors

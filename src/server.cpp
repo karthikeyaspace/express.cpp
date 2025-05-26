@@ -50,6 +50,16 @@ namespace http_server {
     }
   }
 
+
+  void HttpServer::serve_static(const std::string &document_root) {
+    config.document_root = document_root;
+    this->get("/static", [this](const request_t &req, response_t &res) {
+      res.status(200);
+      res.set_content_type("text/html");
+      res.body = "<html><body><h1>Welcome to the HTTP Server</h1></body></html>";
+    });
+  }
+
   void HttpServer::acceptConnections() {
     while (true) {
       struct sockaddr_in client_addr{};
@@ -75,7 +85,7 @@ namespace http_server {
       return;
     }
 
-    // TODO: get client ip
+    // TODO: get client ip for rate limiting, logging
 
     request_t req = parse(std::string(buffer));
     log("INFO", "Request: " + req.method + " " + req.path + "\n" + std::string(buffer));

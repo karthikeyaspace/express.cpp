@@ -32,9 +32,17 @@ namespace http_server {
         }
     }
 
+
     // Parse body
-    if (request_stream.peek() != EOF) {
-        std::getline(request_stream, req_obj.body);
+    int content_length = 0;
+    if (req_obj.headers.find("Content-Length") != req_obj.headers.end()) {
+        content_length = std::stoi(req_obj.headers["Content-Length"]);
+    }
+    if (content_length > 0) {
+        std::string body;
+        body.resize(content_length);
+        request_stream.read(&body[0], content_length);
+        req_obj.body = body;
     }
 
     return (request_t)req_obj;
