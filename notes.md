@@ -48,7 +48,7 @@ Make sure to have:
 - wsl or linux(Ubuntu to be specific)
 - g++
 
-Features
+Features:
 - Serve static files
 - In-built rate limiting
 - Request logging 
@@ -60,7 +60,15 @@ Features
 - Support for response codes
 - Struct for server configuration - port, host, max_connections, rate_limit, cache_size, log_file, static files dir
 
-Thread pool intro
+Concurrency and Synchronization:
+- We need 4 things to perform any task parallely - thread(std::thread), mutex(std::mutex), condition variable(std::condition_variable), and a atomic variable(std::atomic<bool>).
+- Thread is a lightweight process that can run concurrently with other threads.
+- Mutex is a mutual exclusion lock that allows only one thread to access a shared resource at a time. protecting shared buffer.
+- Condition variable is a synchronization primitive that allows threads to wait for a condition to be met before proceeding.
+- Atomic variable is a variable that can be accessed by multiple threads without the need for a mutex, ensuring that the value is always consistent, threads will know when to stop processing without taking a mutex unnecessarily.
+- flow - request comes in -> add to queue -> cv notifies worker threads -> avaliable worker threads pop from queue -> process request   -> send response    
+
+Thread pool:
 - There are n threads, and 1 shared thread-safe queue
 - Each thread will take a request from the queue and process it
 - When a connection comes in, main acceptor thread will add it to the queue
@@ -69,5 +77,13 @@ Thread pool intro
 - We will have a listener thread in acceptConnections, pushes client_fd to request_queue
 - MAX_THREADS no. of worker threads will take reqs from queue, pop client_fd and handleClient()
 - unique_lock is used when you need to lock and unlock the mutex multiple times
-- lock_guard is used when you need to lock the mutex only once and it will automatically unlock when it goes out of scope
-  
+- lock_guard is used when you need to lock the mutex only once and it will automatically unlock when it goes out of scope  
+- condition_variable is used to notify the worker threads when there is a new request in the queue
+
+
+Middleware:
+- have server.add_middleware(std::function<void(const request&, response&)> middleware, std::string path) to add middleware
+- if path is "" or "*" it will be applied to all requests
+- rate limiter with be server.rate_limiter(time) which internally does server.add_middleware(rate_limiter_function, "*")
+- logger will not be a middleware, since we are using a seperate thread for it.
+- 

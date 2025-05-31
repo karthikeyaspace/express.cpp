@@ -29,10 +29,11 @@
 namespace http_server{
 
   static std::queue<std::string> log_queue;
+  static std::string log_file;
+  
   static std::mutex log_mutex;
   static std::condition_variable log_cv; // for thread signaling
   static std::thread log_thread;
-  static std::string log_file;
   static std::atomic<bool> logger_running(false);
 
   void log_worker() {
