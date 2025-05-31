@@ -14,6 +14,7 @@
 #include <thread>
 
 #include "config.hpp"
+#include "thread_pool.hpp"
 
 /**
  * TCP socket implementation for HTTP server
@@ -50,6 +51,8 @@ namespace http_server {
       std::unordered_map<std::string, std::unordered_map<std::string, std::function<void(const request_t&, response_t&)>>> routes;
 
       server_configuration config;
+
+      std::unique_ptr<ThreadPool> thread_pool;
 
       void register_route(const std::string &path, 
                           std::function<void(const request_t&, response_t&)> handler,

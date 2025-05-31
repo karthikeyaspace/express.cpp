@@ -9,6 +9,7 @@
 #include <thread>
 #include <atomic>
 
+#include "logger.hpp"
 #include "utils.hpp"
 
 /**

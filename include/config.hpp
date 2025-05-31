@@ -64,7 +64,7 @@ namespace http_server {
     int server_fd = -1;
     int port = 8080;
     int max_connections = 100;
-    int threads = 4;
+    int threads = 5;
     int rate_limit = 100;
     std::string document_root = "./public";
     std::string log_file_path = "";

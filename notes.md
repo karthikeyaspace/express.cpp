@@ -1,7 +1,7 @@
 <!-- /notes.md -->
 
 HTTP server from scratch
-(build like package)
+(build like library)
 
 Components:
 1. TCP socket, binding to ports, listening to connections (base web server)
@@ -15,23 +15,38 @@ Components:
 9. In-mem queue
 10. Middleware 
 
+
 Sources: 
-1. https://osasazamegbe.medium.com/showing-building-an-http-server-from-scratch-in-c-2da7c0db6cb7
-2. https://developer.mozilla.org/en-US/docs/Web/HTTP
+1. https://developer.mozilla.org/en-US/docs/Web/HTTP
 
-list all wsl distros -> wsl -l -v
-terminate wsl -> wsl --terminate <distro>
-set default wsl distro -> wsl --set-default <distro>
-install a distro -> wsl --install -d <distro>
-install packages in ubuntu -> sudo apt install build-essential cmake git -y
-set cmake compiler -> cmake .. -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
+Managing
+1. https://chatgpt.com/c/68309224-98e4-800e-ac1c-06643cf842f5
+2. https://trello.com/c/YLy9GbYm/60-http-webserver-project
 
-to build the project
+
+
+Commands explored:
+- list all wsl distros -> wsl -l -v
+- terminate wsl -> wsl --terminate <distro>
+- set default wsl distro -> wsl --set-default <distro>
+- install a distro -> wsl --install -d <distro>
+- install packages in ubuntu -> sudo apt install build-essential cmake git -y
+- set cmake compiler -> cmake .. -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
+
+to build the project:
+- wsl
+- cd <project_directory>
+- mkdir build
 - cd build
 - cmake ..
 - make
 - ./http_server
 - to build using g++ -> g++ -Iinclude src/*.cpp example/main.cpp -o http_server
+
+Make sure to have:
+- cmake
+- wsl or linux(Ubuntu to be specific)
+- g++
 
 Features
 - Serve static files
@@ -50,21 +65,9 @@ Thread pool intro
 - Each thread will take a request from the queue and process it
 - When a connection comes in, main acceptor thread will add it to the queue
 - If queue is full, server may reject the request (503) or buffer it in bounded common queue - currently just reject
-
-Done
-- TCP socket, binding to ports, listening to connections (base web server)
-- Request protocol parser - HTTP request lines and headers
-- API routing (GET)
-- Logger with background thread and in-memory queue to server.log file
-- API routing (POST, PUT, DELETE)
-
-TODO:
-- Handling headers
-- Serve static files
-- In-memory queue for requests
-- Multiple connections - Thread pool (n threads)
-- Middleware support
-- Rate limiting
-- Load server config from yaml file
-- terminal commands - r(restart), q(quit), p(show all paths)
-- server.cors
+- We dont want to spawn a new thread for every request
+- We will have a listener thread in acceptConnections, pushes client_fd to request_queue
+- MAX_THREADS no. of worker threads will take reqs from queue, pop client_fd and handleClient()
+- unique_lock is used when you need to lock and unlock the mutex multiple times
+- lock_guard is used when you need to lock the mutex only once and it will automatically unlock when it goes out of scope
+  

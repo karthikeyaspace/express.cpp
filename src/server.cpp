@@ -2,7 +2,8 @@
 
 #include "server.hpp"
 #include "config.hpp"
-#include "utils.hpp"
+#include "utils.hpp"  
+#include "logger.hpp"
 
 namespace http_server {
 
@@ -27,23 +28,35 @@ namespace http_server {
       EXIT("Failed to set socket options");
     }
 
+    std::cout<<"Socket established"<<std::endl;
+    
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY; // 0.0.0.0
     server_addr.sin_port = htons(config.port);
-
+    
     if (bind(server_fd, (sockaddr*)&server_addr, sizeof(server_addr)) == -1) {
       EXIT("Failed to bind socket");
     }
-
+    
+    std::cout<<"Socket binded to port"<<std::endl;
+    
     if (listen(server_fd, config.max_connections) == -1) {
       EXIT("Failed to listen on socket");
     }
-
-    std::cout << "Server is running on http://localhost:" << config.port << std::endl;
-
+    
     this->config.server_fd = server_fd;
+    
+    std::cout << "Server is running on http://localhost:" << config.port << std::endl;
+    
+    thread_pool = std::make_unique<ThreadPool>(config.threads);
+    thread_pool->client_handler = [this](int client_fd) {
+      this->handleClient(client_fd);
+    };
+    std::cout<<"Thread pool initialised" <<std::endl; 
+
     if(!config.log_file_path.empty()) {
+      std::cout<<"Logging started: " + config.log_file_path<<std::endl;
       start_log_thread(config.log_file_path);
     } else {
       WARNING("File logging disabled");
@@ -73,14 +86,17 @@ namespace http_server {
       struct sockaddr_in client_addr{};
       socklen_t client_addr_len = sizeof(client_addr);
 
+      // new thread
       int client_fd = accept(config.server_fd, (struct sockaddr*)&client_addr, &client_addr_len);
       if (client_fd == -1) {
         perror("Failed to accept connection");
         continue;
       }
-
-      handleClient(client_fd);
+   
+      thread_pool->enqueue(client_fd);
+         
     }
+
   }
 
   void HttpServer::handleClient(int client_fd) {
@@ -121,11 +137,12 @@ namespace http_server {
   }
 
   void HttpServer::helper(const std::string &alpha) {
+    // TODO
     if (alpha == "h") {
       std::cout << "Available commands:\n"
-                << "  h - help\n"
-                << "  r - show all registered routes\n"
-                << "  s - show server status\n"
+                << "  r - show server routing table\n"
+                << "  l - reload server with configuration and static files\n"
+                << "  c - show server config\n"
                 << "  q - quit\n\n";
     } else if (alpha == "r") {
       std::cout << "Registered routes:\n";
