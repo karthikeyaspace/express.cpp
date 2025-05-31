@@ -1,3 +1,5 @@
+<!-- /notes.md -->
+
 HTTP server from scratch
 (build like package)
 

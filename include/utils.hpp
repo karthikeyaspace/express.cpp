@@ -11,6 +11,8 @@ namespace http_server{
   
   std::string get_time();
   
+  std::string get_client_ip(int client_fd);
+
   void start_log_thread(const std::string &log_file_path);
   
   void log(const std::string &log_level, const std::string &log_message);

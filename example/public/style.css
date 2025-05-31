@@ -1,0 +1,15 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.home-page {
+  background-color: darkgreen;
+  color: lightgray;
+}
+
+.index-page {
+  background-color: indianred;
+  color: white;
+}

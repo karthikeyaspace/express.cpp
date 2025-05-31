@@ -8,16 +8,16 @@ int main() {
 
   server_configuration config;
   config.port = 8080;
-  config.log_file_path = "/mnt/d/KARTHIKEYA/PROJECTS/YO2/http_server/example/server.log";
+  config.log_file_path = "../example/server.log";
 
   HttpServer server(config);
 
   std::string static_path = "../example/public"; // path relative to /build/http_server.exe
   server.serve_static(static_path);
 
-  server.get("/home0", [](request_t req, response_t &res) {
+  server.get("/landing", [](request_t req, response_t &res) {
     res.status(200);
-    res.message("Welcome to the home page!");
+    res.message("Welcome to the landing page!");
   });
 
   server.get("/json", [](request_t req, response_t &res) {
@@ -38,10 +38,9 @@ int main() {
     res.message(data);
   });
 
-  server.get("/re", [](request_t req, response_t &res) {
-    res.redirect("/home");
+  server.get("/reirect", [](request_t req, response_t &res) {
+    res.redirect("/");
   });
-
 
   server.start();
 

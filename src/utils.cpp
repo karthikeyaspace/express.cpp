@@ -65,6 +65,21 @@ namespace http_server {
     return "[" + timestamp + "] ";
   }
 
+  std::string get_client_ip(int client_fd) {
+    struct sockaddr_in client_addr;
+    socklen_t addr_len = sizeof(client_addr);
+    if (getpeername(client_fd, (struct sockaddr *)&client_addr, &addr_len) == -1) {
+      perror("getpeername failed");
+      return "";
+    }
+    char ip_str[INET_ADDRSTRLEN];
+    if (inet_ntop(AF_INET, &client_addr.sin_addr, ip_str, sizeof(ip_str)) == nullptr) {
+      perror("inet_ntop failed");
+      return "";
+    }
+    return std::string(ip_str);
+  }
+
   std::vector<std::string> get_files_in_directory(const std::string &directory) {
     std::vector<std::string> files;
     DIR *dir = opendir(directory.c_str());

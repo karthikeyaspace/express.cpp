@@ -94,9 +94,10 @@ namespace http_server {
     }
 
     // TODO: get client ip for rate limiting, logging
+    std::string client_ip = get_client_ip(client_fd);
 
     request_t req = parse(std::string(buffer));
-    log("INFO", "Request: " + req.method + " " + req.path + "\n" + std::string(buffer));
+    log("INFO", "Request: " + client_ip + " " + req.method + " " + req.path + "\n" + std::string(buffer));
 
 
     response_t res;
