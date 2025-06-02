@@ -2,6 +2,8 @@
 
 #include "express.h"
 
+#include "handler.cpp"
+
 using namespace express;
 
 int main() {
@@ -20,28 +22,13 @@ int main() {
     res.message("Welcome to the landing page!");
   });
 
-  server.get("/json", [](Request req, Response &res) {
-    res.status(200);
-    
-  });
+  server.get("/json", get_json);
 
-  server.post("/api/submit", [](Request req, Response &res) {
-    auto data = req.body;
-    res.status(200);
-    res.message(data);
-  });
+  server.post("/api/submit", api_submit);
 
-  server.get("/api/data", [](Request req, Response &res) {
-    res.status(200);
-    res.json({
-      {"message", "This is a sample API response"},
-      {"status", "success"},
-    });
-  });
+  server.get("/api/data", api_data);
 
-  server.get("/redirect", [](Request req, Response &res) {
-    res.redirect("/");
-  });
+  server.get("/redirect", redirect);
 
   server.start();
 
