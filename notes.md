@@ -19,10 +19,10 @@ Components:
 Sources: 
 1. https://developer.mozilla.org/en-US/docs/Web/HTTP
 
+
 Managing
 1. https://chatgpt.com/c/68309224-98e4-800e-ac1c-06643cf842f5
 2. https://trello.com/c/YLy9GbYm/60-http-webserver-project
-
 
 
 Commands explored:
@@ -35,13 +35,13 @@ Commands explored:
 
 to build the project:
 - wsl
-- cd <project_directory>
+- cd <project_directory> [make sure that project dir name is same as namespace]
 - mkdir build
 - cd build
 - cmake ..
 - make
-- ./http_server
-- to build using g++ -> g++ -Iinclude src/*.cpp example/main.cpp -o http_server
+- ./express
+- to build using g++ -> g++ -Iinclude src/*.cpp example/main.cpp -o express
 
 Make sure to have:
 - cmake

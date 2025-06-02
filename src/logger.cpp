@@ -26,17 +26,13 @@
  * [LEVEL][TIMESTAMP] message
  */
 
-namespace http_server{
+namespace express {
 
-  static std::queue<std::string> log_queue;
-  static std::string log_file;
-  
-  static std::mutex log_mutex;
-  static std::condition_variable log_cv; // for thread signaling
-  static std::thread log_thread;
-  static std::atomic<bool> logger_running(false);
+  Logger::Logger(const std::string &log_file_path) {
+    log_file = log_file_path;
+  }
 
-  void log_worker() {
+  void Logger::log_worker() {
     while(logger_running || !log_queue.empty()) {
       std::unique_lock<std::mutex> lock(log_mutex);
       log_cv.wait(lock, [] { return !log_queue.empty() || !logger_running; });
@@ -57,13 +53,12 @@ namespace http_server{
     }
   }
 
-  void start_log_thread(const std::string &log_file_path) {
-    log_file = log_file_path;
+  void Logger::start_log_thread() {
     logger_running = true;
     log_thread = std::thread(log_worker);
   }
 
-  void stop_log_thread() {
+  void Logger::stop_log_thread() {
     logger_running = false;
     log_cv.notify_all();
     if(log_thread.joinable()) {
@@ -71,7 +66,7 @@ namespace http_server{
     }
   }
 
-  void log(const std::string &log_level, const std::string &log_message) {
+  void Logger::log(const std::string &log_level, const std::string &log_message) {
     if(log_file.empty()) return;
     
     std::ostringstream oss;
@@ -84,4 +79,4 @@ namespace http_server{
 
     log_cv.notify_all();
   }
-}
+} // namespace express

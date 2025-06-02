@@ -1,8 +1,8 @@
 // /example/main.cpp
 
-#include "server.hpp"
+#include "express.h"
 
-using namespace http_server;
+using namespace express;
 
 int main() {
 
@@ -12,33 +12,34 @@ int main() {
 
   HttpServer server(config);
 
-  std::string static_path = "../example/public"; // path relative to /build/http_server.exe
+  std::string static_path = "../example/public"; // path relative to /build/express.exe
   server.serve_static(static_path);
 
-  server.get("/landing", [](request_t req, response_t &res) {
+  server.get("/landing", [](Request req, Response &res) {
     res.status(200);
     res.message("Welcome to the landing page!");
   });
 
-  server.get("/json", [](request_t req, response_t &res) {
+  server.get("/json", [](Request req, Response &res) {
     res.status(200);
-    res.json({
-      {"name", "Karthikeya(me)"},
-      {"city", "Hyd, Telangana, India"},
-      {"age", "20"},
-      {"hobbies", "[\"coding\", \"reading\"]"},
-      {"is_student", "true"},
-      {"skills", "[\"C++\", \"Python\", \"TS\"]"}
-    });
+    
   });
 
-  server.post("/api/submit", [](request_t req, response_t &res) {
+  server.post("/api/submit", [](Request req, Response &res) {
     auto data = req.body;
     res.status(200);
     res.message(data);
   });
 
-  server.get("/reirect", [](request_t req, response_t &res) {
+  server.get("/api/data", [](Request req, Response &res) {
+    res.status(200);
+    res.json({
+      {"message", "This is a sample API response"},
+      {"status", "success"},
+    });
+  });
+
+  server.get("/redirect", [](Request req, Response &res) {
     res.redirect("/");
   });
 

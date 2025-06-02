@@ -3,11 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Express cpp | Home</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="home-page">
   <h1>Hello, Home!</h1>
-  <a href="./">go back</a>
+  <a href="./">go back</a>x
+
+  <p id="data"></p>
+  <script>
+    fetch('/api/data')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById('data').textContent = JSON.stringify(data.message);
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  </script>
+
 </body>
 </html>

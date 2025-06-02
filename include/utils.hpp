@@ -2,17 +2,17 @@
 
 #pragma once
 
-#include "config.hpp"
 #include <string>
 
-namespace http_server{
+#include "request_response.hpp"
 
-  request_t parse(const std::string &request);
+namespace express{
+
+  Request parse(const std::string &Request);
   
   std::string get_time();
   
   std::string get_client_ip(int client_fd);
-
   
   std::vector<std::string> get_files_in_directory(const std::string &directory);
   
@@ -22,4 +22,4 @@ namespace http_server{
 
   std::string read_file(const std::string &file_path);
 
-} // namespace http_server
+} // namespace express

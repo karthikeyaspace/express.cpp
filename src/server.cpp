@@ -1,17 +1,16 @@
 // /src/server.cpp
 
-#include "server.hpp"
-#include "config.hpp"
-#include "utils.hpp"  
-#include "logger.hpp"
+#include "express.h"
 
-namespace http_server {
+namespace express {
 
   HttpServer::HttpServer(const server_configuration &config)
     : config(config) {
   }
 
   HttpServer::~HttpServer() {
+    logger->stop_log_thread();
+    thread_pool->stop();
     if (config.server_fd != -1) {
       close(config.server_fd);
     }
@@ -47,20 +46,22 @@ namespace http_server {
     
     this->config.server_fd = server_fd;
     
-    std::cout << "Server is running on http://localhost:" << config.port << std::endl;
     
     thread_pool = std::make_unique<ThreadPool>(config.threads);
     thread_pool->client_handler = [this](int client_fd) {
       this->handleClient(client_fd);
     };
+    
     std::cout<<"Thread pool initialised" <<std::endl; 
-
+    
     if(!config.log_file_path.empty()) {
-      std::cout<<"Logging started: " + config.log_file_path<<std::endl;
-      start_log_thread(config.log_file_path);
+      std::cout<<"Logger thread initialised "<<std::endl;
+      logger = std::make_unique<Logger>(config.log_file_path);
+      logger->start_log_thread();
     } else {
       WARNING("File logging disabled");
     }
+    std::cout << "Server is running on http://localhost:" << config.port << std::endl;
   }
 
 
@@ -70,7 +71,7 @@ namespace http_server {
     for (const auto &file: files) {
       std::string path = get_path(file);
       std::string full_path = document_root + "/" + file;
-      this->get(path, [full_path](const request_t req, response_t &res) {
+      this->get(path, [full_path](const Request req, Response &res) {
         std::string contents = read_file(full_path);
         std::string mimetype = get_file_mimetype(full_path);
 
@@ -94,7 +95,6 @@ namespace http_server {
       }
    
       thread_pool->enqueue(client_fd);
-         
     }
 
   }
@@ -112,11 +112,12 @@ namespace http_server {
     // TODO: get client ip for rate limiting, logging
     std::string client_ip = get_client_ip(client_fd);
 
-    request_t req = parse(std::string(buffer));
-    log("INFO", "Request: " + client_ip + " " + req.method + " " + req.path + "\n" + std::string(buffer));
+    Request req = parse(std::string(buffer));
+    Response res;
 
+    // logging request to log file
+    this->logger->log("INFO", "Request: " + client_ip + " " + req.method + " " + req.path + "\n" + std::string(buffer));
 
-    response_t res;
 
     const auto& method = req.method;
     const auto& path = req.path;
@@ -130,7 +131,8 @@ namespace http_server {
 
     std::string res_string = res.prepare_response();
 
-    log("INFO", "Response: " + res_string + "\n\n");
+    // loggint response to log file
+    this->logger->log("INFO", "Response: " + res_string + "\n\n");
     
     write(client_fd, res_string.c_str(), res_string.size());
     close(client_fd);
@@ -145,7 +147,7 @@ namespace http_server {
                 << "  c - show server config\n"
                 << "  q - quit\n\n";
     } else if (alpha == "r") {
-      std::cout << "Registered routes:\n";
+      std::cout << "\nRegistered routes:\n";
       for (const auto& method : routes) {
         for (const auto& route : method.second) {
           std::cout << method.first << " " << route.first << "\n";
@@ -177,4 +179,4 @@ namespace http_server {
     acceptConnections();
   }
 
-} // namespace http_server
+} // namespace express

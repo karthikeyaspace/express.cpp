@@ -9,11 +9,10 @@
 #include <mutex>
 #include <functional>
 
-#include "config.hpp"
 
 // thread for logging, request queing (for multiple connections)
 
-namespace http_server {
+namespace express {
   
   class ThreadPool {
     public:
@@ -34,4 +33,4 @@ namespace http_server {
       std::atomic<bool> pool_running;
     };
   
-} // namespace http_server
+} // namespace express

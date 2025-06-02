@@ -8,8 +8,9 @@
 #include <string>
 #include <sstream>
 
-namespace http_server {
+namespace express {
 
+  // Macros
   #define EXIT(msg) { \
     perror(msg); \
     exit(EXIT_FAILURE); \
@@ -69,91 +70,5 @@ namespace http_server {
     std::string document_root = "./public";
     std::string log_file_path = "";
   };
-
-  struct request_t {
-    std::string method;
-    std::string path;
-    std::string version;
-    std::unordered_map<std::string, std::string> headers;
-    std::string body;
-
-    std::string to_string() {
-      std::string request = method + " " + path + " " + version + "\r\n";
-      for (const auto& header : headers) {
-        request += header.first + ": " + header.second + "\r\n";
-      }
-      request += "\r\n" + body;
-      return request;
-    }
-  };
-
-  struct response_t {
-    std::string version = "HTTP/1.1";
-    int status_code = 200;
-    std::string status_message = "OK";
-    std::unordered_map<std::string, std::string> headers;
-    std::string body;
-
-    std::string to_string() {
-      std::string response = version + " " + std::to_string(status_code) + " " + status_message + "\r\n";
-      for (const auto& header : headers) {
-        response += header.first + ": " + header.second + "\r\n";
-      }
-      response += "\r\n" + body;
-      return response;
-    }
-    
-    std::string prepare_response() {
-      if (headers.find("Content-Type") == headers.end()) {
-        headers["Content-Type"] = "text/plain";
-      }
-      if (headers.find("Content-Length") == headers.end()) {
-        headers["Content-Length"] = std::to_string(body.size());
-      }
-      std::string response = version + " " + std::to_string(status_code) + " " + status_message + "\r\n";
-      for (const auto& header : headers) {
-        response += header.first + ": " + header.second + "\r\n";
-      }
-      response += "\r\n" + body;
-      return response;
-    }
-
-    void set_content_type(const std::string& type) {
-      headers["Content-Type"] = type;
-    }
-
-    void status(int code) {
-      if (status_codes.find(code) == status_codes.end()) {
-        WARNING("Invalid status code: " + std::to_string(code));
-      }
-      status_code = code;
-      status_message = status_codes.at(code);
-    }
-    
-    void set_header(const std::string& key, const std::string& value) {
-      headers[key] = value;
-    }
-
-    void json(const std::unordered_map<std::string, std::string>& json_obj) {
-      headers["Content-Type"] = "application/json";
-      body = "{";
-      for (const auto& [key, value] : json_obj) {
-        body += "\"" + key + "\": \"" + value + "\", ";
-      }
-      body.pop_back();
-      body.pop_back();
-      body += "}";
-    }
-
-    void message(const std::string& msg) {
-      headers["Content-Type"] = "text/plain";
-      body = msg;
-      headers["Content-Length"] = std::to_string(body.size());
-    }
-
-    void redirect(const std::string &path) {
-      this->status(302);
-      headers["Location"] = path;
-    }
-  };
-} // namespace http_server
+  
+} // namespace express

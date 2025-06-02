@@ -1,15 +1,18 @@
 // /src/thread_pool.cpp
 
 #include "thread_pool.hpp"
-#include "server.hpp"
 
-namespace http_server{
+namespace express{
   
   ThreadPool::ThreadPool(size_t num_threads){
     pool_running = true;
     for(size_t i=0; i<num_threads; i++) {
       workers.emplace_back(&ThreadPool::request_worker, this);
     }
+  }
+
+  ThreadPool::~ThreadPool() {
+    stop();
   }
 
   void ThreadPool::request_worker(ThreadPool *pool) {
@@ -46,7 +49,5 @@ namespace http_server{
     }
   }
 
-  ThreadPool::~ThreadPool() {
-    stop();
-  }
-} // namespace http_server
+
+} // namespace express

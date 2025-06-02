@@ -10,53 +10,47 @@
 #include <dirent.h>
 #include <fstream>
 #include <unistd.h>
+#include <arpa/inet.h>
 
-
-
-#include "config.hpp"
 #include "utils.hpp"
-#include "server.hpp"
+#include "config.hpp"
 
-namespace http_server {
+namespace express{
 
-  request_t parse(const std::string &request) {
-    request_t req_obj;
-    std::istringstream request_stream(request);
+  Request parse(const std::string &raw_request){
+    std::istringstream request_stream(raw_request);
     std::string line;
+
+    Request req;
 
     // Parse request line
     std::getline(request_stream, line);
     std::istringstream request_line(line);
-    request_line >> req_obj.method >> req_obj.path >> req_obj.version;
+    request_line >> req.method >> req.path >> req.version;
 
     // Parse headers
-    while (std::getline(request_stream, line) && line != "\r") {
-        auto colon_pos = line.find(':');
-        if (colon_pos != std::string::npos) {
-            std::string key = line.substr(0, colon_pos);
-            std::string value = line.substr(colon_pos + 1);
-            req_obj.headers[key] = value;
-        }
+    while (std::getline(request_stream, line) && line != "\r" && !line.empty()){
+      auto colon_pos = line.find(':');
+      if (colon_pos != std::string::npos){
+        std::string key = line.substr(0, colon_pos);
+        std::string value = line.substr(colon_pos + 1);
+        value.erase(0, value.find_first_not_of(" ")); 
+        req.headers[key] = value;
+      }
     }
-
 
     // Parse body
-    int content_length = 0;
-    if (req_obj.headers.find("Content-Length") != req_obj.headers.end()) {
-        content_length = std::stoi(req_obj.headers["Content-Length"]);
-    }
-    if (content_length > 0) {
-        std::string body;
-        body.resize(content_length);
-        request_stream.read(&body[0], content_length);
-        req_obj.body = body;
+    if (req.headers.count("Content-Length")) {
+      int len = std::stoi(req.headers["Content-Length"]);
+      std::string body(len, '\0');
+      request_stream.read(&body[0], len);
+      req.body = body;
     }
 
-    return (request_t)req_obj;
+    return req;
   }
 
-
-  std::string get_time() {
+  std::string get_time(){
     std::time_t now = std::time(nullptr);
     std::tm *tm_now = std::localtime(&now);
     std::ostringstream oss;
@@ -65,31 +59,38 @@ namespace http_server {
     return "[" + timestamp + "] ";
   }
 
-  std::string get_client_ip(int client_fd) {
+  std::string get_client_ip(int client_fd)
+  {
     struct sockaddr_in client_addr;
     socklen_t addr_len = sizeof(client_addr);
-    if (getpeername(client_fd, (struct sockaddr *)&client_addr, &addr_len) == -1) {
+    if (getpeername(client_fd, (struct sockaddr *)&client_addr, &addr_len) == -1)
+    {
       perror("getpeername failed");
       return "";
     }
     char ip_str[INET_ADDRSTRLEN];
-    if (inet_ntop(AF_INET, &client_addr.sin_addr, ip_str, sizeof(ip_str)) == nullptr) {
+    if (inet_ntop(AF_INET, &client_addr.sin_addr, ip_str, sizeof(ip_str)) == nullptr)
+    {
       perror("inet_ntop failed");
       return "";
     }
     return std::string(ip_str);
   }
 
-  std::vector<std::string> get_files_in_directory(const std::string &directory) {
+  std::vector<std::string> get_files_in_directory(const std::string &directory)
+  {
     std::vector<std::string> files;
     DIR *dir = opendir(directory.c_str());
-    if (!dir) {
-      EXIT("Failed to open directory: ");
+    if (!dir)
+    {
+      ERROR("Failed to open directory: ");
     }
 
     struct dirent *entry;
-    while ((entry = readdir(dir)) != nullptr) {
-      if (entry->d_type == DT_REG) { 
+    while ((entry = readdir(dir)) != nullptr)
+    {
+      if (entry->d_type == DT_REG)
+      {
         files.push_back(entry->d_name);
       }
     }
@@ -97,10 +98,12 @@ namespace http_server {
     return files;
   }
 
-  std::string read_file(const std::string &filepath) {
+  std::string read_file(const std::string &filepath)
+  {
     std::ifstream file(filepath, std::ios::in | std::ios::binary);
-    
-    if(!file) {
+
+    if (!file)
+    {
       ERROR("Failed to open file: " + filepath);
     }
 
@@ -109,18 +112,26 @@ namespace http_server {
     return oss.str();
   }
 
-  std::string get_path(const std::string &filename) { 
+  std::string get_path(const std::string &filename)
+  {
     std::string ext = filename.substr(filename.find_last_of('.'));
-    if(filename == "index.html") return "/";
-    else if (ext == ".html") return "/" + filename.substr(0, filename.find_last_of('.'));
-    else return "/" + filename;
+    if (filename == "index.html")
+      return "/";
+    else if (ext == ".html")
+      return "/" + filename.substr(0, filename.find_last_of('.'));
+    else
+      return "/" + filename;
   }
 
-  std::string get_file_mimetype(const std::string &filename) {
+  std::string get_file_mimetype(const std::string &filename)
+  {
     std::string extension = filename.substr(filename.find_last_of('.') + 1);
-    if(extension == "html") return "text/html";
-    else if(extension == "css") return "text/css";
-    else if(extension == "js") return "application/javascript";
-    return "text/html"; 
+    if (extension == "html")
+      return "text/html";
+    else if (extension == "css")
+      return "text/css";
+    else if (extension == "js")
+      return "application/javascript";
+    return "text/html";
   }
 }
