@@ -2,7 +2,11 @@
 
 #pragma once
 
-// TODO: class Logger
+#include <thread>
+#include <condition_variable>
+#include <atomic>
+#include <queue>
+#include <mutex>
 
 namespace express {
   class Logger{
@@ -13,13 +17,13 @@ namespace express {
       stop_log_thread();
     }
 
-    static std::queue<std::string> log_queue;
-    static std::string log_file;
+    std::queue<std::string> log_queue;
+    std::string log_file;
 
-    static std::mutex log_mutex;
-    static std::condition_variable log_cv; // for thread signaling
-    static std::thread log_thread;
-    static std::atomic<bool> logger_running;
+    std::mutex log_mutex;
+    std::condition_variable log_cv; // for thread signaling
+    std::thread log_thread;
+    std::atomic<bool> logger_running;
 
     void start_log_thread();
     void log(const std::string &log_level, const std::string &log_message);

@@ -35,7 +35,7 @@ namespace express {
   void Logger::log_worker() {
     while(logger_running || !log_queue.empty()) {
       std::unique_lock<std::mutex> lock(log_mutex);
-      log_cv.wait(lock, [] { return !log_queue.empty() || !logger_running; });
+      log_cv.wait(lock, [this] { return !log_queue.empty() || !logger_running; });
 
       while (!log_queue.empty()) {
         std::string log_message = log_queue.front();
@@ -55,7 +55,7 @@ namespace express {
 
   void Logger::start_log_thread() {
     logger_running = true;
-    log_thread = std::thread(log_worker);
+    log_thread = std::thread(&Logger::log_worker, this);
   }
 
   void Logger::stop_log_thread() {

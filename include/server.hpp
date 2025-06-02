@@ -16,6 +16,8 @@
 #include "config.hpp"
 #include "request_response.hpp"
 #include "thread_pool.hpp"
+#include "logger.hpp"
+#include "utils.hpp"
 
 /**
  * TCP socket implementation for HTTP server

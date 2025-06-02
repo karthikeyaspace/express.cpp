@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <sstream>
 
+#include "config.hpp"
+
 namespace express {
 
   class Request {
