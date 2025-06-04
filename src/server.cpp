@@ -135,7 +135,7 @@ namespace express {
       auto handler = routes[method][path];
       handler(req, res);
     } else {
-      res.status(404);
+      res.not_found();
     }
 
     std::string res_string = res.prepare_response();

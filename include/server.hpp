@@ -55,6 +55,13 @@ namespace express {
       // to support features like route parameters, middlewares
       std::unordered_map<std::string, std::unordered_map<std::string, std::function<void(const Request&, Response&)>>> routes;
 
+      // TODO:
+      // refactor to routes ds to support middlewares, route parameters, regex matching
+      // key value pair, key will be combination of method and path - e.g. "GET /api/users"
+      // value will be handler chain - linked list of functions 
+      // first will be middlewares of path *, then middlewares of that path, then actual handler of that path
+
+      
       // why unique_ptr?
       // Because we want to manage the lifetime of these objects automatically, and they get cleaned when HttpServer is destroyed
       std::unique_ptr<ThreadPool> thread_pool;

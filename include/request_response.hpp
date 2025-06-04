@@ -112,6 +112,12 @@ namespace express {
       return oss.str();
     }
 
+    void not_found() {
+      status(404);
+      message("Not Found");
+      send();
+    }
+
   private:
     int client_fd = -1;
   };
