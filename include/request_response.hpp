@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <sstream>
+#include <unistd.h> 
 
 #include "config.hpp"
 
@@ -43,10 +44,14 @@ namespace express {
     std::unordered_map<std::string, std::string> headers;
     std::string body;
 
-    Response() = default;
+    Response(int client_fd): client_fd(client_fd) {};
 
     void set_content_type(const std::string &type) {
       headers["Content-Type"] = type;
+    }
+    
+    void set_header(const std::string &key, const std::string &value) {
+      headers[key] = value;
     }
 
     void status(int code) {
@@ -65,14 +70,7 @@ namespace express {
       if (headers.find("Content-Type") == headers.end()) {
         headers["Content-Type"] = "text/plain";
       }
-    }
-
-    void send(const std::string &data) {
-      body = data;
-      headers["Content-Length"] = std::to_string(body.size());
-      if (headers.find("Content-Type") == headers.end()) {
-        headers["Content-Type"] = "text/plain";
-      }
+      send();
     }
 
     void json(const std::unordered_map<std::string, std::string>& json_obj) {
@@ -83,14 +81,25 @@ namespace express {
         oss << "\"" << it->first << "\": \"" << it->second << "\"";
       }
       oss << "}";
-      send(oss.str());
+      message(oss.str());
       set_content_type("application/json");
+      send();
     }
 
     void redirect(const std::string &location) {
       status(302);
       headers["Location"] = location;
       body = "";
+      send();
+    }
+
+    void send() {
+      if (client_fd == -1) {
+        ERROR("Failed to initialize server response");
+      }
+      std::string res = this->prepare_response();
+      write(client_fd, res.c_str(), res.size());
+      close(client_fd);
     }
 
     std::string prepare_response() const {
@@ -102,6 +111,9 @@ namespace express {
       oss << "\r\n" << body;
       return oss.str();
     }
+
+  private:
+    int client_fd = -1;
   };
 
 } // namespace express

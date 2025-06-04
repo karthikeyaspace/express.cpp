@@ -7,17 +7,20 @@
 #include <unordered_map>
 #include <string>
 #include <sstream>
+#include <cassert>
 
 namespace express {
 
   // Macros
   #define EXIT(msg) { \
     perror(msg); \
+    assert(false); \
     exit(EXIT_FAILURE); \
   }
 
   #define ERROR(msg) { \
     std::cerr << "[ERROR] " << msg << std::endl; \
+    assert(false); \
     exit(EXIT_FAILURE); \
   }
 

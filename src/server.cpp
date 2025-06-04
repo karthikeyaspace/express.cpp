@@ -8,15 +8,22 @@ namespace express {
     : config(config) {
   }
 
-  HttpServer::~HttpServer() {
+  void HttpServer::stop() {
+    // thread_pool->stop();
     logger->stop_log_thread();
-    thread_pool->stop();
-    if (config.server_fd != -1) {
+    if(config.server_fd != -1) {
       close(config.server_fd);
+      config.server_fd = -1;
     }
+    std::cout << "Server stopped successfully." << std::endl;
+    exit(EXIT_SUCCESS);
   }
 
-  void HttpServer::setupServer() {
+  HttpServer::~HttpServer() {
+    stop();
+  }
+
+  void HttpServer::setupServer(std::function<void()> on_start) {
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd == -1) {
       EXIT("Failed to establish socket");
@@ -27,7 +34,6 @@ namespace express {
       EXIT("Failed to set socket options");
     }
 
-    std::cout<<"Socket established"<<std::endl;
     
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
@@ -38,12 +44,12 @@ namespace express {
       EXIT("Failed to bind socket");
     }
     
-    std::cout<<"Socket binded to port"<<std::endl;
-    
     if (listen(server_fd, config.max_connections) == -1) {
       EXIT("Failed to listen on socket");
     }
     
+    std::cout<<"Socket established"<<std::endl;
+
     this->config.server_fd = server_fd;
     
     
@@ -61,11 +67,12 @@ namespace express {
     } else {
       WARNING("File logging disabled");
     }
-    std::cout << "Server is running on http://localhost:" << config.port << std::endl;
+
+    on_start();
   }
 
 
-  void HttpServer::serve_static(const std::string &document_root) {
+  void HttpServer::serve(const std::string &document_root) {
     config.document_root = document_root;
     auto files = get_files_in_directory(document_root);
     for (const auto &file: files) {
@@ -78,6 +85,8 @@ namespace express {
         res.status(200);
         res.set_content_type(mimetype);
         res.body = contents;
+        res.set_header("Content-Length", std::to_string(contents.size()));
+        res.send();
       });
     }
   }
@@ -109,11 +118,11 @@ namespace express {
       return;
     }
 
-    // TODO: get client ip for rate limiting, logging
+  // TODO: get client ip for rate limiting, logging
     std::string client_ip = get_client_ip(client_fd);
 
     Request req = parse(std::string(buffer));
-    Response res;
+    Response res(client_fd);
 
     // logging request to log file
     this->logger->log("INFO", "Request: " + client_ip + " " + req.method + " " + req.path + "\n" + std::string(buffer));
@@ -131,15 +140,11 @@ namespace express {
 
     std::string res_string = res.prepare_response();
 
-    // loggint response to log file
+    // logging response to log file
     this->logger->log("INFO", "Response: " + res_string + "\n\n");
-    
-    write(client_fd, res_string.c_str(), res_string.size());
-    close(client_fd);
   }
 
   void HttpServer::helper(const std::string &alpha) {
-    // TODO
     if (alpha == "h") {
       std::cout << "Available commands:\n"
                 << "  r - show server routing table\n"
@@ -150,23 +155,30 @@ namespace express {
       std::cout << "\nRegistered routes:\n";
       for (const auto& method : routes) {
         for (const auto& route : method.second) {
-          std::cout << method.first << " " << route.first << "\n";
+          std::cout << "  " << method.first << " " << route.first << "\n";
         }
       }
       std::cout << std::endl;
     } else if (alpha == "s") {
       std::cout << "Server is running on http://localhost:" << config.port << std::endl << std::endl;
-    } else if (alpha == "q") {
-      std::cout << "Stopping server...\n";
-      if (config.server_fd != -1) {
-        close(config.server_fd);
-      }
-      exit(0);
+    } 
+    else if(alpha == "c") {
+      std::cout << "Server Configuration:\n"
+                << "  Port: " << config.port << "\n"
+                << "  Server FD: " << config.server_fd << "\n"
+                << "  Max Connections: " << config.max_connections << "\n"
+                << "  Threads: " << config.threads << "\n"
+                << "  Rate Limit: " << config.rate_limit << "\n"
+                << "  Document Root: " << config.document_root << "\n"
+                << "  Log File Path: " << config.log_file_path << "\n\n";
+    } 
+    else if (alpha == "q") {
+      stop();
     }
   }
 
-  void HttpServer::start() {
-    setupServer();
+  void HttpServer::start(std::function<void()> on_start) {
+    setupServer(on_start);
     
     std::thread([this]() {
       std::string ip;

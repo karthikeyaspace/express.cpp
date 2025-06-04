@@ -10,11 +10,8 @@ Components:
 4. Handling headers
 5. Multiple connections - thread pool (n threads) 
 6. Serve static files
-7. Rate limiting
-8. Logger
-9. In-mem queue
-10. Middleware 
-
+7. Logger
+8. In-mem queue
 
 Sources: 
 1. https://developer.mozilla.org/en-US/docs/Web/HTTP
@@ -50,10 +47,8 @@ Make sure to have:
 
 Features:
 - Serve static files
-- In-built rate limiting
 - Request logging 
 - Parsing HTTP requests
-- In-built in-memory cache using LRU
 - Multi-thread queueing
 - API routing - GET, POST, PUT, DELETE
 - Graceful shutdown
@@ -79,11 +74,3 @@ Thread pool:
 - unique_lock is used when you need to lock and unlock the mutex multiple times
 - lock_guard is used when you need to lock the mutex only once and it will automatically unlock when it goes out of scope  
 - condition_variable is used to notify the worker threads when there is a new request in the queue
-
-
-Middleware:
-- have server.add_middleware(std::function<void(const request&, response&)> middleware, std::string path) to add middleware
-- if path is "" or "*" it will be applied to all requests
-- rate limiter with be server.rate_limiter(time) which internally does server.add_middleware(rate_limiter_function, "*")
-- logger will not be a middleware, since we are using a seperate thread for it.
-- 
