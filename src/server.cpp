@@ -96,7 +96,6 @@ namespace express {
       struct sockaddr_in client_addr{};
       socklen_t client_addr_len = sizeof(client_addr);
 
-      // new thread
       int client_fd = accept(config.server_fd, (struct sockaddr*)&client_addr, &client_addr_len);
       if (client_fd == -1) {
         perror("Failed to accept connection");
@@ -105,7 +104,6 @@ namespace express {
    
       thread_pool->enqueue(client_fd);
     }
-
   }
 
   void HttpServer::handleClient(int client_fd) {
@@ -118,7 +116,7 @@ namespace express {
       return;
     }
 
-  // TODO: get client ip for rate limiting, logging
+    // TODO: get client ip for rate limiting, logging
     std::string client_ip = get_client_ip(client_fd);
 
     Request req = parse(std::string(buffer));
