@@ -18,6 +18,7 @@ namespace express {
     std::string version;
     std::unordered_map<std::string, std::string> headers;
     std::string body;
+    std::unordered_map<std::string, std::string> params;
 
     Request() = default;
 

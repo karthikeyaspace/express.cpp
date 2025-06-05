@@ -20,13 +20,16 @@ namespace express{
   Request parse(const std::string &raw_request){
     std::istringstream request_stream(raw_request);
     std::string line;
+    std::string path;
 
     Request req;
 
     // Parse request line
     std::getline(request_stream, line);
     std::istringstream request_line(line);
-    request_line >> req.method >> req.path >> req.version;
+    request_line >> req.method >> path >> req.version;
+
+    parse_path(path, req);
 
     // Parse headers
     while (std::getline(request_stream, line) && line != "\r" && !line.empty()){
@@ -48,6 +51,26 @@ namespace express{
     }
 
     return req;
+  }
+
+  // parsing path for query parameters
+  void parse_path(const std::string &path, Request &req) {  
+    size_t query_pos = path.find('?');
+    if (query_pos != std::string::npos) {
+      req.path = path.substr(0, query_pos);
+      std::string query_string = path.substr(query_pos + 1);
+      std::istringstream query_stream(query_string);
+      std::string param;
+
+      while(std::getline(query_stream, param, '&')) {
+        size_t equal_pos = param.find('=');
+        if (equal_pos != std::string::npos) {
+          std::string key = param.substr(0, equal_pos);
+          std::string value = param.substr(equal_pos + 1);
+          req.params[key] = value;
+        }
+      }
+    } else req.path = path;
   }
 
   std::string get_time(){

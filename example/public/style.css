@@ -5,11 +5,11 @@ body{
 }
 
 .home-page {
-  background-color: darkgreen;
-  color: lightgray;
+  color: black;
+  background-color: #fde5d4;
 }
 
 .index-page {
-  background-color: indianred;
+  background-color: #445d48;
   color: white;
 }

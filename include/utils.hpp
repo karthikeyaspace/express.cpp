@@ -9,6 +9,8 @@
 namespace express{
 
   Request parse(const std::string &Request);
+
+  void parse_path(const std::string &path, Request &req);
   
   std::string get_time();
   
