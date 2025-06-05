@@ -1,6 +1,6 @@
 # HTTP Server Library in C++
 
-Express.js-inspired HTTP server written in C++
+Express.js-inspired HTTP server library written in C++
 
 Features:
 - Serve static files
@@ -21,6 +21,13 @@ Components:
 4. Thread pool, In-memory request queue
 5. Logger
 
+What more can be added:
+- Middleware support
+- In-build ratelimiter
+- CORS support
+- Hot Reload (dev)
+
+
 Sources: 
 1. https://developer.mozilla.org/en-US/docs/Web/HTTP
 
@@ -35,10 +42,13 @@ to build the project:
 - ./express
 - to build using g++ -> g++ -Iinclude src/*.cpp example/main.cpp -o express
 
+
+
 Make sure to have:
 - cmake
 - wsl or linux(Ubuntu to be specific)
 - g++
+
 
 
 Concurrency and Synchronization:
@@ -48,6 +58,7 @@ Concurrency and Synchronization:
 - Condition variable is a synchronization primitive that allows threads to wait for a condition to be met before proceeding.
 - Atomic variable is a variable that can be accessed by multiple threads without the need for a mutex, ensuring that the value is always consistent, threads will know when to stop processing without taking a mutex unnecessarily.
 - flow - request comes in -> add to queue -> cv notifies worker threads -> avaliable worker threads pop from queue -> process request   -> send response    
+
 
 Thread pool:
 - There are n threads, and 1 shared thread-safe queue
